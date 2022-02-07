@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:23:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/01/18 16:56:35 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/02/03 16:54:15 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <fcntl.h>
+//# include <stdio.h>
+//# include <fcntl.h>
 
 # define MAX_FD 1024
 
