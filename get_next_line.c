@@ -6,18 +6,17 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:22:58 by adlecler          #+#    #+#             */
-/*   Updated: 2022/02/07 15:52:45 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:29:15 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <fcntl.h>
+
+//void destructor() __attribute__((destructor));
 
 char	*ft_addbuff(int fd, char *str)
 {
-	char	buff[BUFFER_SIZE +1];
+	char	buff[BUFFER_SIZE + 1];
 	int		ret;
 
 	ret = 1;
@@ -25,34 +24,31 @@ char	*ft_addbuff(int fd, char *str)
 	{
 		ret = read(fd, buff, BUFFER_SIZE);
 		if (ret == -1)
-		{
-			free(buff);
 			return (NULL);
-		}
 		buff[ret] = '\0';
 		str = ft_strjoin(str, buff, 0, 0);
-		if (!str)
-			return (NULL);
-		//si str est null
 		if (ft_strchr(str, '\n') == 1 || ret == 0)
 			break ;
 	}
 	return (str);
 }
 
-char	*ft_addstr(char *str)
+char	*ft_addstr(char *str, int i)
 {
-	int		i;
 	int		j;
 	char	*line;
 
-	i = 0;
 	j = 0;
-	if (!str)
+	line = NULL;
+	if (str == NULL)
+	{
+		free(str);
 		return (NULL);
+	}
 	while (str[i] && str[i] != '\n')
 		i++;
-	i++;
+	if (str[i] == '\n')
+		i++;
 	line = (char *)malloc(sizeof(char) * (i + 1));
 	if (!line)
 		return (NULL);
@@ -65,59 +61,54 @@ char	*ft_addstr(char *str)
 	return (line);
 }
 
-char	*ft_realloc(char *str, int i, int j, int adrien)
+char	*ft_realloc(char *str, int i, int j, int tmp)
 {
 	char	*new_str;
 
 	if (str[0] == '\0')
-		return (NULL);
+		return (ft_free(&str));
 	j = ft_strlen(str);
 	while (str[i] && str[i] != '\n')
 		i++;
 	if (str[i] == '\n')
 		i++;
-	adrien = i;
+	tmp = i;
 	i = j - i;
 	new_str = (char *)malloc(sizeof(char) * (i + 1));
 	if (!new_str)
 		return (NULL);
 	j = 0;
-	while (j < i)
+	while (j <= i)
 	{
-		new_str[j] = str[adrien + j];
+		new_str[j] = str[tmp + j];
 		j++;
 	}
-	new_str[j] = '\0';
-	free(str);
+	//new_str[j] = '\0';
+	ft_free(&str);
 	return (new_str);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str;
+	static char	*str = NULL;
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+		return (NULL);
 	str = ft_addbuff(fd, str);
 	if (!str)
 		return (NULL);
-	line = ft_addstr(str);
+	line = ft_addstr(str, 0);
 	if (line == NULL)
-	{
-		free(str);
-		return (NULL);
-	}
+		return (ft_free(&str));
 	str = ft_realloc(str, 0, 0, 0);
 	if (str == NULL)
-	{
-		free(line);
-		return (NULL);
-	}
+		return (ft_free(&line));
 	return (line);
 }
 
-int	main(void)
+/* int	main(void)
 {
 	char	*line;
 	int		i;
@@ -146,4 +137,9 @@ int	main(void)
 	close(fd2);
 	close(fd3);
 	return (0);
-}
+} */
+
+/* void	destructor()
+{
+	system("leaks a.out");
+} */

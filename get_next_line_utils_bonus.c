@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:23:22 by adlecler          #+#    #+#             */
-/*   Updated: 2022/01/18 13:50:50 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/02/08 15:27:40 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,37 +33,44 @@ int	ft_strchr(char *s, int c)
 		return (0);
 	while (s[i] != '\0')
 	{
-		if (s[i] == (char)c)
+		if (s[i] == c)
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-char	*ft_strjoin(char *str, char *buff)
+char	*ft_free(char **str)
 {
-	size_t	i;
-	size_t	j;
+	if (*str)
+		free(*str);
+	str = NULL;
+	return (NULL);
+}
+
+char	*ft_strjoin(char *str, char *buff, size_t i, size_t j)
+{
 	char	*new;
 
-	if (!str)
-	{
-		str = (char *)malloc(sizeof(char) * 1);
-		str[0] = '\0';
-	}
-	if (!str || !buff)
-		return (NULL);
+	new = NULL;
 	new = malloc(sizeof(char) * ((ft_strlen(str) + ft_strlen(buff)) + 1));
 	if (new == NULL)
-		return (NULL);
-	i = -1;
-	j = 0;
+		return (ft_free(&str));
 	if (str)
-		while (str[++i] != '\0')
+	{
+		while (str[i] != '\0')
+		{
 			new[i] = str[i];
+			i++;
+		}
+	}
 	while (buff[j] != '\0')
-		new[i++] = buff[j++];
-	new[ft_strlen(str) + ft_strlen(buff)] = '\0';
-	free(str);
+	{
+		new[i] = buff[j];
+		i++;
+		j++;
+	}
+	new[i] = '\0';
+	ft_free(&str);
 	return (new);
 }
