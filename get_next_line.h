@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:23:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/02/08 15:30:18 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:55:52 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <stdio.h>
 # include <fcntl.h>
 
-//# define MAX_FD 1024
 //# define BUFFER_SIZE 1000
 
 char	*get_next_line(int fd);

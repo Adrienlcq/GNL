@@ -6,13 +6,11 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/22 14:22:58 by adlecler          #+#    #+#             */
-/*   Updated: 2022/02/08 15:58:16 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/02/08 16:56:19 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-
-//void destructor() __attribute__((destructor));
 
 char	*ft_addbuff(int fd, char *str)
 {
@@ -83,7 +81,6 @@ char	*ft_realloc(char *str, int i, int j, int tmp)
 		new_str[j] = str[tmp + j];
 		j++;
 	}
-	//new_str[j] = '\0';
 	ft_free(&str);
 	return (new_str);
 }
@@ -91,9 +88,8 @@ char	*ft_realloc(char *str, int i, int j, int tmp)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str[MAX_FD];
+	static char	*str[MAX_FD] = {0};
 
-	//*str = NULL;
 	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -108,57 +104,3 @@ char	*get_next_line(int fd)
 		return (ft_free(&line));
 	return (line);
 }
-
-/* int	main(void)
-{
-	char	*line;
-	int		i;
-	int		fd1;
-	int		fd2;
-	int		fd3;
-
-	fd1 = open("tests/test.txt", O_RDONLY);
-	fd2 = open("tests/test2.txt", O_RDONLY);
-	fd3 = open("tests/test3.txt", O_RDONLY);
-	i = 1;
-	while (i < 7)
-	{
-		line = get_next_line(fd1);
-		printf("line [0%d] : %s", i, line);
-		free(line);
-		line = get_next_line(fd2);
-		printf("line [0%d] : %s", i, line);
-		free(line);
-		line = get_next_line(fd3);
-		printf("line [0%d] : %s", i, line);
-		free(line);
-		i++;
-	}
-	close(fd1);
-	close(fd2);
-	close(fd3);
-	return (0);
-} */
-
-/* void	destructor()
-{
-	system("leaks a.out");
-} */
-
-/* int main(int ac, char **av)
-{
-	char	*line;
-	int		fd = 0;
-
-	(void)ac;
-	(void)av;
-	if (fd < 0)
-		return (1);
-	while ((line = get_next_line(fd)))
-	{
-		printf("LINE : %s", line);
-		free(line);
-		line = NULL;
-	}
-	return (0);
-} */
